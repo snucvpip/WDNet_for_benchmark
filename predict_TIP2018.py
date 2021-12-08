@@ -17,6 +17,7 @@ from model_dense import *
 import pdb
 from torchvision import transforms
 from skimage.metrics import structural_similarity
+from skimage.metrics import mean_squared_error
 # from pixtopix import LossNetwork
 from skimage import color
 
@@ -251,7 +252,7 @@ def weights_init(m):
 if __name__ == "__main__":
     args = get_args()
     in_files = 'testData'  # args.input
-    in_files2 = 'trainData/target'
+    in_files2 = 'targetData'
     out_files = get_output_filenames(args)
 
     net = WDNet()
@@ -378,6 +379,8 @@ if __name__ == "__main__":
 
         so = structural_similarity(np.array(imggt_luma), np.array(img_luma), data_range=255)
         s = structural_similarity(np.array(imggt_luma), np.array(img2_luma), data_range=255)
+
+        mse = mean_squared_error(np.array(imggt_luma), np.array(img2_luma))
 
         psnr_ori = psnr_ori + po
         psnr_pro = psnr_pro + p
